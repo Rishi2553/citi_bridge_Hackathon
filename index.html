@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot - CIBIL Score Prediction</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="chat-container">
+        <h2>AI Chatbot - CIBIL Score Prediction</h2>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="input-box">
+            <input type="text" id="user-input" placeholder="Enter details...">
+            <button onclick="sendMessage()">Send</button>
+            <button onclick="resetChat()" class="reset-btn">Reset</button>
+
+        </div>
+    </div>
+    
+    <div class="dashboard-container">
+        <h3>Risk Assessment Dashboard</h3>
+        <div class="score" id="credit-score">Credit Score: --</div>
+        <div class="risk-level" id="risk-level">Risk Level: --</div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

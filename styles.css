@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #007BFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    color: white;
+}
+
+.chat-container, .dashboard-container {
+    width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    color: black;
+    transition: border 0.3s ease-in-out;
+}
+
+/* ✅ Default chat box and result box border */
+.chat-box, .dashboard-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+/* ✅ High-risk red border (5px = 0.5 cm) */
+.high-risk-border {
+    border: 5px solid red !important;
+}
+
+/* ✅ Chat messages styling */
+.chat-box {
+    height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ✅ User messages aligned to right */
+.user-message {
+    align-self: flex-end;
+    background: red;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    margin: 5px;
+}
+
+/* ✅ Bot messages aligned to left */
+.bot-message {
+    align-self: flex-start;
+    background: red;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    margin: 5px;
+}
+
+/* ✅ Input box and buttons */
+.input-box {
+    display: flex;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    color: black;
+}
+
+button {
+    padding: 10px;
+    background: darkblue;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+button.reset-btn {
+    background: red;
+    margin-left: 5px;
+}
+
+/* ✅ Risk Levels */
+.low-risk { background-color: green; }
+.medium-risk { background-color: orange; }
+.high-risk {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+}
