@@ -1,7 +1,7 @@
-let step = 0; // ✅ Start from step 0 to include company name
+let step = 0;
 let userData = {};
 const questions = [
-    "Enter your Company Name:", // ✅ First question is company name
+    "Enter your Company Name:",
     "Enter Annual Revenue (in ₹):",
     "Enter Loan Amount Required (in ₹):",
     "Enter GST Compliance (%):",
@@ -10,13 +10,11 @@ const questions = [
     "Enter Market Trend (0 - Declining, 1 - Stable, 2 - Growth):"
 ];
 
-// ✅ Ask the first question when the page loads
 window.onload = function () {
     let chatBox = document.getElementById("chat-box");
     chatBox.innerHTML += `<p class="bot-message"><strong>Bot:</strong> ${questions[step]}</p>`;
 };
 
-// ✅ Trigger sendMessage() when "Enter" key is pressed
 document.getElementById("user-input").addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
         sendMessage();
@@ -29,9 +27,7 @@ async function sendMessage() {
 
     if (input === "") return;
 
-    // ✅ Display user message on the right
-    let userMessage = `<p class="user-message"><strong>You:</strong> ${input}</p>`;
-    chatBox.innerHTML += userMessage;
+    chatBox.innerHTML += `<p class="user-message"><strong>You:</strong> ${input}</p>`;
     document.getElementById("user-input").value = "";
 
     if (!validateInput(input, step)) {
@@ -54,7 +50,7 @@ async function sendMessage() {
 }
 
 function validateInput(input, step) {
-    if (step === 0) return input.length > 0; // ✅ Company name must not be empty
+    if (step === 0) return input.length > 0;
     if (step === 1 || step === 2) return !isNaN(input) && input > 0;
     if (step === 3) return !isNaN(input) && input >= 0 && input <= 100;
     if (step === 4) return !isNaN(input) && input >= 0;
@@ -104,48 +100,68 @@ async function fetchCreditScore() {
     }
 }
 
+function drawSpeedometer(score) {
+    let canvas = document.getElementById("speedometer");
+    let ctx = canvas.getContext("2d");
+
+    let minScore = 300;
+    let maxScore = 900;
+    let angle = ((score - minScore) / (maxScore - minScore)) * Math.PI - Math.PI;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw semicircle
+    ctx.beginPath();
+    ctx.arc(150, 150, 100, Math.PI, 2 * Math.PI);
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = "#ccc";
+    ctx.stroke();
+
+    // Draw needle
+    ctx.beginPath();
+    ctx.moveTo(150, 150);
+    ctx.lineTo(150 + 90 * Math.cos(angle), 150 + 90 * Math.sin(angle));
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "red";
+    ctx.stroke();
+
+    // Draw score text
+    ctx.fillStyle = "black";
+    ctx.font = "20px Arial";
+    ctx.fillText(`Score: ${score}`, 110, 140);
+}
+
 function updateDashboard(score) {
     let scoreElement = document.getElementById("credit-score");
     let riskLevelElement = document.getElementById("risk-level");
-    let chatBox = document.getElementById("chat-box");
-    let dashboardContainer = document.querySelector(".dashboard-container");
 
     scoreElement.innerText = `Credit Score: ${score}`;
-    dashboardContainer.classList.remove("high-risk-border");
 
-    let riskReason = "";
     if (score >= 750) {
         riskLevelElement.innerText = "Risk Level: Low";
         riskLevelElement.className = "risk-level low-risk";
-        riskReason = "Good financial stability and strong credit history.";
     } else if (score >= 500) {
         riskLevelElement.innerText = "Risk Level: Medium";
         riskLevelElement.className = "risk-level medium-risk";
-        riskReason = "Some risks due to loan amount or inconsistent transactions.";
     } else {
         riskLevelElement.innerText = "Risk Level: High";
         riskLevelElement.className = "risk-level high-risk";
-        riskReason = `High risk due to past defaults (${userData.past_defaults}) or high loan amount (${userData.loan_amount}₹).`;
-
-        // ✅ Add red border if high risk
-        dashboardContainer.classList.add("high-risk-border");
-        chatBox.classList.add("high-risk-border");
     }
 
-    chatBox.innerHTML += `<p class="bot-message"><strong>Bot:</strong> Reason: ${riskReason}</p>`;
+    drawSpeedometer(score);
 }
 
-// ✅ Reset Chatbot & Dashboard
 function resetChat() {
     document.getElementById("chat-box").innerHTML = "";
     document.getElementById("credit-score").innerText = "Credit Score: --";
     document.getElementById("risk-level").innerText = "Risk Level: --";
-    document.querySelector(".dashboard-container").classList.remove("high-risk-border");
-    document.querySelector(".chat-box").classList.remove("high-risk-border");
     step = 0;
     userData = {};
 
-    // ✅ Re-ask first question after reset
     let chatBox = document.getElementById("chat-box");
     chatBox.innerHTML += `<p class="bot-message"><strong>Bot:</strong> ${questions[step]}</p>`;
+
+    let canvas = document.getElementById("speedometer");
+    let ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
